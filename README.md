@@ -51,5 +51,8 @@ $ npm install cors
 
 
 ## Preview
-https://user-images.githubusercontent.com/57193454/224535948-38e609a5-0b13-4234-98e7-e8f2e70595a8.mp4
+
+https://user-images.githubusercontent.com/57193454/224537528-42b1f0f2-fc0a-4471-91a0-091586b798db.mp4
+
+
 
