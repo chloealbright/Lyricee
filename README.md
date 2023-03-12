@@ -51,8 +51,10 @@ $ npm install cors
 
 
 ## Preview
+* [Lyricee Preview - Watch Video](https://www.loom.com/share/83c6b9ab24bf41a3b03908517933ab15)
 
-https://user-images.githubusercontent.com/57193454/224537528-42b1f0f2-fc0a-4471-91a0-091586b798db.mp4
+![Login](https://user-images.githubusercontent.com/57193454/224539522-103b423d-d42a-400d-bfea-89d8f744ba2b.gif)
 
+![Search](https://user-images.githubusercontent.com/57193454/224539563-c398b6ec-b425-4838-8abe-a5a5f838b2dd.gif)
 
 
