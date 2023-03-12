@@ -1,6 +1,7 @@
-import '../styles/Login.css';
 import React from 'react'
-import { Container } from 'react-bootstrap'
+// import { Container } from 'react-bootstrap'
+// import firebase from 'firebase/app';
+import 'firebase/auth';
 
 /*SCOPES to access:
 streaming, 
@@ -15,16 +16,47 @@ user-read-currently-playing to check if user is currently playing a song
 const AUTH_URL="https://accounts.spotify.com/authorize?client_id=fdaa7bc856bb452f8f3755006b186319&response_type=code&redirect_uri=http://localhost:3000&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
     
 export default function Login() {
+  //set background
+  const Background = require('../assets/retrodrive.gif');
+  const divBackground = {
+      width: '100%',
+      height: '800px',
+      backgroundImage: `url(${Background})`,
+      backgroundRepeat: "no-repeat",
+      backgroundSize: 'cover'
+  };
+  /**
+   * backgroundImage: `url(${Background})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: 'cover'
+   */
 
   return (
-    <Container
-      className="d-flex justify-content-center align-items-center"
-      style={{ minHeight: '100vh' }}
-    >
+    <div className="d-flex justify-content-center align-items-center"
+      style={{ 
+        minHeight: '100vh', 
+        backgroundImage: `url(${Background})`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: 'cover'
+      }}>
+      <a className='btn btn-success btn-lg' href={AUTH_URL}>
+          Login with Spotify
+      </a>
+    </div>
+    // Alternative, implement with Container:
+    // <Container
+    //   className="d-flex justify-content-center align-items-center"
+    //   style={{ 
+    //     minHeight: '100vh', 
+    //     backgroundImage: `url(${Background})`,
+    //     backgroundRepeat: "no-repeat",
+    //     backgroundSize: 'cover'
+    //   }}>
 
-        <a className='btn btn-success btn-lg' href={AUTH_URL}>
-            Login with Spotify
-        </a>
-    </Container>
+    //     <a className='btn btn-success btn-lg' href={AUTH_URL}>
+    //         Login with Spotify
+    //     </a>
+    // </Container>
   )
 }

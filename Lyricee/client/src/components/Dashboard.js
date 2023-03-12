@@ -1,12 +1,14 @@
 import {useState, useEffect} from 'react';
-import useAuth from './useAuth' //for login authentication
+import useAuth from './useAuth' // For login authentication
 import {Container, Form} from "react-bootstrap"
 import SpotifyWebApi from "spotify-web-api-node"
+// Alternative package: import SpotifyWebApi from "spotify-web-api-js"
 
 import axios from "axios"
 import MusicPlayer from "./MusicPlayer"
 import SearchResult from './SearchResult';
 
+// use Spotify Web API for access token
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.REACT_APP_SPOTIFY_CLIENT_ID,
 })
@@ -20,16 +22,16 @@ export default function Dashboard({code}){
 
     function chooseSong(song){
       setPlaying(song)
-      setSearch("")
+      setSearch("") // clear search 
       setLyrics("")
     }
     useEffect(() => {
       if (!playingSong) return
   
-      axios
-        .get("http://localhost:3000/lyrics", {
+      axios 
+        .get("http://localhost:3001/lyrics", {// send lyrics-request to server
           params: {
-            song: playingSong.title,
+            track: playingSong.title,
             artist: playingSong.artist,
           },
         })
@@ -44,44 +46,84 @@ export default function Dashboard({code}){
     }, [accessToken])
   
     useEffect(() => {
-      if (!search) return setSearchResults([])
+      if (!search) return setSearchResults([]) // If search is empty, clear search results
       if (!accessToken) return
   
-      let cancel = false
-      spotifyApi.searchTracks(search).then(res => {
-        if (cancel) return
+      let cancel = false // Set to true to cancel the search request
+      spotifyApi.searchTracks(search).then(res => { 
+        // Map results for return 
+        // console.log(res.body.tracks.items)
+        if (cancel) return 
         setSearchResults(
-          res.body.tracks.items.map(track => {
-            const smallestAlbumImage = track.album.images.reduce(
+          res.body.tracks.items.map(song => {
+            const smallestAlbumImage = song.album.images.reduce(
+              // loop through album images and return smallest
               (smallest, image) => {
                 if (image.height < smallest.height) return image
                 return smallest
               },
-              track.album.images[0]
+              song.album.images[0]
             )
   
             return {
-              artist: track.artists[0].name,
-              title: track.name,
-              uri: track.uri,
+              artist: song.artists[0].name,
+              title: song.name,
+              uri: song.uri,
               albumUrl: smallestAlbumImage.url,
             }
           })
         )
       })
-  
-      return () => (cancel = true)
+      // set cancel to the previous request to true 
+      // if a new request is made during the search
+      return () => (cancel = true) 
     }, [search, accessToken])
+
+    //set background
+  const Background = require('../assets/retrodrive.gif');
+  const divBackground = {
+      width: '100%',
+      height: '800px',
+      backgroundImage: `url(${Background})`,
+      backgroundRepeat: "no-repeat",
+      backgroundSize: 'cover'
+  };
+
   
     return (
-      <Container className="d-flex flex-column py-2" style={{ height: "100vh" }}>
+      // for testing: <div>{code}</div>
+      // flex box column and flex col = vertical 
+      /**
+       * Style notes: 
+       * d-flex: flexbox container
+       * flex-column: align vertically
+       * py-2: add top & bottom padding  
+       * set container height to 100vh: search bar-top, music-middle, player-bottom
+       * flex-grow-1: grow to fill container
+       * my-2: add top & bottom margin
+       * overflowY: auto, allow scrolling for lyrics if applicable
+       * white-space: pre, allows new lines to be displayed
+       */
+      <Container className="d-flex flex-column py-2" 
+      style={{
+        height: "100vh",
+        backgroundColor: "rgba(31,18,17,0.5)",
+        color: "white"
+      }}>
         <Form.Control
           type="search"
-          placeholder="Search Songs/Artists"
+          placeholder="Search Songs/Artists" 
           value={search}
           onChange={e => setSearch(e.target.value)}
+          style={{
+            backgroundColor:"rgb(31,18,17)",
+            color:"white"
+          }}
         />
-        <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
+        <div className="flex-grow-1 my-2" 
+        style={{ 
+          overflowY: "auto"
+        }}>
           {searchResults.map(song => (
             <SearchResult
               song={song}

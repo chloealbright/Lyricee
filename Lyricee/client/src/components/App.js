@@ -8,7 +8,18 @@ const code = new URLSearchParams(window.location.search).get("code");
 function App() {
   //if code is null, redirect to login page
   // return <Login/>
-  return code ? <Dashboard code={code} /> : <Login />
+  //set background
+  const Background = require('../assets/retrodrive.gif');
+  return (
+  <div style={{
+    height: '100vh',
+    backgroundImage: `url(${Background})`,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundSize: 'cover'
+  }}>
+  {code ? <Dashboard code={code} /> : <Login />}
+  </div>)
   
 }
 
